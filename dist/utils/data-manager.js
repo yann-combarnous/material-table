@@ -7,12 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _objectSpread2 = _interopRequireDefault(
-  require("@babel/runtime/helpers/objectSpread")
-);
-
 var _toConsumableArray2 = _interopRequireDefault(
   require("@babel/runtime/helpers/toConsumableArray")
+);
+
+var _objectSpread2 = _interopRequireDefault(
+  require("@babel/runtime/helpers/objectSpread")
 );
 
 var _classCallCheck2 = _interopRequireDefault(
@@ -72,6 +72,21 @@ var DataManager = /*#__PURE__*/ (function () {
     (0, _defineProperty2["default"])(this, "sorted", false);
     (0, _defineProperty2["default"])(this, "paged", false);
     (0, _defineProperty2["default"])(this, "rootGroupsIndex", {});
+    (0, _defineProperty2["default"])(this, "setData", function (data) {
+      _this.selectedCount = 0;
+      _this.data = data.map(function (row, index) {
+        row.tableData = (0, _objectSpread2["default"])({}, row.tableData, {
+          id: index,
+        });
+
+        if (row.tableData.checked) {
+          _this.selectedCount++;
+        }
+
+        return row;
+      });
+      _this.filtered = false;
+    });
     (0, _defineProperty2["default"])(this, "startCellEditable", function (
       rowData,
       columnDef
@@ -398,26 +413,6 @@ var DataManager = /*#__PURE__*/ (function () {
 
   (0, _createClass2["default"])(DataManager, [
     {
-      key: "setData",
-      value: function setData(data) {
-        var _this2 = this;
-
-        this.selectedCount = 0;
-        this.data = data.map(function (row, index) {
-          row.tableData = (0, _objectSpread2["default"])({}, row.tableData, {
-            id: index,
-          });
-
-          if (row.tableData.checked) {
-            _this2.selectedCount++;
-          }
-
-          return row;
-        });
-        this.filtered = false;
-      },
-    },
-    {
       key: "setColumns",
       value: function setColumns(columns) {
         var undefinedWidthColumns = columns.filter(function (c) {
@@ -525,7 +520,7 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "changeRowSelected",
       value: function changeRowSelected(checked, path) {
-        var _this3 = this;
+        var _this2 = this;
 
         var rowData = this.findDataByPath(this.sortedData, path);
         rowData.tableData.checked = checked;
@@ -536,8 +531,8 @@ var DataManager = /*#__PURE__*/ (function () {
             rowData.tableData.childRows.forEach(function (childRow) {
               if (childRow.tableData.checked !== checked) {
                 childRow.tableData.checked = checked;
-                _this3.selectedCount =
-                  _this3.selectedCount + (checked ? 1 : -1);
+                _this2.selectedCount =
+                  _this2.selectedCount + (checked ? 1 : -1);
               }
 
               checkChildRows(childRow);
@@ -900,10 +895,10 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "sortList",
       value: function sortList(list) {
-        var _this4 = this;
+        var _this3 = this;
 
         var columnDef = this.columns.find(function (_) {
-          return _.tableData.id === _this4.orderBy;
+          return _.tableData.id === _this3.orderBy;
         });
         var result = list;
 
@@ -921,16 +916,16 @@ var DataManager = /*#__PURE__*/ (function () {
           result = list.sort(
             this.orderDirection === "desc"
               ? function (a, b) {
-                  return _this4.sort(
-                    _this4.getFieldValue(b, columnDef),
-                    _this4.getFieldValue(a, columnDef),
+                  return _this3.sort(
+                    _this3.getFieldValue(b, columnDef),
+                    _this3.getFieldValue(a, columnDef),
                     columnDef.type
                   );
                 }
               : function (a, b) {
-                  return _this4.sort(
-                    _this4.getFieldValue(a, columnDef),
-                    _this4.getFieldValue(b, columnDef),
+                  return _this3.sort(
+                    _this3.getFieldValue(a, columnDef),
+                    _this3.getFieldValue(b, columnDef),
                     columnDef.type
                   );
                 }
@@ -943,7 +938,7 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "groupData",
       value: function groupData() {
-        var _this5 = this;
+        var _this4 = this;
 
         this.sorted = this.paged = false;
         this.groupedDataLength = 0;
@@ -973,13 +968,13 @@ var DataManager = /*#__PURE__*/ (function () {
                   (0, _toConsumableArray2["default"])(o.path || []),
                   [value]
                 );
-                var oldGroup = _this5.findGroupByGroupPath(
-                  _this5.groupedData,
+                var oldGroup = _this4.findGroupByGroupPath(
+                  _this4.groupedData,
                   path
                 ) || {
                   isExpanded:
-                    typeof _this5.defaultExpanded === "boolean"
-                      ? _this5.defaultExpanded
+                    typeof _this4.defaultExpanded === "boolean"
+                      ? _this4.defaultExpanded
                       : false,
                 };
                 group = {
@@ -997,7 +992,7 @@ var DataManager = /*#__PURE__*/ (function () {
               return group;
             }, object);
             object.data.push(currentRow);
-            _this5.groupedDataLength++;
+            _this4.groupedDataLength++;
             return result;
           },
           {
@@ -1013,7 +1008,7 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "treefyData",
       value: function treefyData() {
-        var _this6 = this;
+        var _this5 = this;
 
         this.sorted = this.paged = false;
         this.data.forEach(function (a) {
@@ -1039,14 +1034,14 @@ var DataManager = /*#__PURE__*/ (function () {
         var addRow = function addRow(rowData) {
           rowData.tableData.markedForTreeRemove = false;
 
-          var parent = _this6.parentFunc(rowData, _this6.data);
+          var parent = _this5.parentFunc(rowData, _this5.data);
 
           if (parent) {
             parent.tableData.childRows = parent.tableData.childRows || [];
 
             if (!parent.tableData.childRows.includes(rowData)) {
               parent.tableData.childRows.push(rowData);
-              _this6.treefiedDataLength++;
+              _this5.treefiedDataLength++;
             }
 
             addRow(parent);
@@ -1054,16 +1049,16 @@ var DataManager = /*#__PURE__*/ (function () {
               (0, _toConsumableArray2["default"])(parent.tableData.path),
               [parent.tableData.childRows.length - 1]
             );
-            _this6.treeDataMaxLevel = Math.max(
-              _this6.treeDataMaxLevel,
+            _this5.treeDataMaxLevel = Math.max(
+              _this5.treeDataMaxLevel,
               rowData.tableData.path.length
             );
           } else {
-            if (!_this6.treefiedData.includes(rowData)) {
-              _this6.treefiedData.push(rowData);
+            if (!_this5.treefiedData.includes(rowData)) {
+              _this5.treefiedData.push(rowData);
 
-              _this6.treefiedDataLength++;
-              rowData.tableData.path = [_this6.treefiedData.length - 1];
+              _this5.treefiedDataLength++;
+              rowData.tableData.path = [_this5.treefiedData.length - 1];
             }
           }
         }; // Add all rows initially
@@ -1073,7 +1068,7 @@ var DataManager = /*#__PURE__*/ (function () {
         });
 
         var markForTreeRemove = function markForTreeRemove(rowData) {
-          var pointer = _this6.treefiedData;
+          var pointer = _this5.treefiedData;
           rowData.tableData.path.forEach(function (pathPart) {
             if (pointer.tableData && pointer.tableData.childRows) {
               pointer = pointer.tableData.childRows;
@@ -1098,16 +1093,16 @@ var DataManager = /*#__PURE__*/ (function () {
 
         this.data.forEach(function (rowData) {
           if (
-            !_this6.searchText &&
-            !_this6.columns.some(function (columnDef) {
+            !_this5.searchText &&
+            !_this5.columns.some(function (columnDef) {
               return columnDef.tableData.filterValue;
             })
           ) {
             if (rowData.tableData.isTreeExpanded === undefined) {
               var isExpanded =
-                typeof _this6.defaultExpanded === "boolean"
-                  ? _this6.defaultExpanded
-                  : _this6.defaultExpanded(rowData);
+                typeof _this5.defaultExpanded === "boolean"
+                  ? _this5.defaultExpanded
+                  : _this5.defaultExpanded(rowData);
               rowData.tableData.isTreeExpanded = isExpanded;
             }
           }
@@ -1116,14 +1111,14 @@ var DataManager = /*#__PURE__*/ (function () {
 
           if (
             !hasSearchMatchedChildren &&
-            _this6.searchedData.indexOf(rowData) < 0
+            _this5.searchedData.indexOf(rowData) < 0
           ) {
             markForTreeRemove(rowData);
           }
         }); // preserve all children of nodes that are matched by search or filters
 
         this.data.forEach(function (rowData) {
-          if (_this6.searchedData.indexOf(rowData) > -1) {
+          if (_this5.searchedData.indexOf(rowData) > -1) {
             traverseChildrenAndUnmark(rowData);
           }
         });
@@ -1149,7 +1144,7 @@ var DataManager = /*#__PURE__*/ (function () {
     {
       key: "sortData",
       value: function sortData() {
-        var _this7 = this;
+        var _this6 = this;
 
         this.paged = false;
 
@@ -1180,10 +1175,10 @@ var DataManager = /*#__PURE__*/ (function () {
               return list.sort(
                 columnDef.tableData.groupSort === "desc"
                   ? function (a, b) {
-                      return _this7.sort(b.value, a.value, columnDef.type);
+                      return _this6.sort(b.value, a.value, columnDef.type);
                     }
                   : function (a, b) {
-                      return _this7.sort(a.value, b.value, columnDef.type);
+                      return _this6.sort(a.value, b.value, columnDef.type);
                     }
               );
             }
@@ -1198,8 +1193,8 @@ var DataManager = /*#__PURE__*/ (function () {
                 element.groups = sortGroups(element.groups, column);
                 sortGroupData(element.groups, level + 1);
               } else {
-                if (_this7.orderBy >= 0 && _this7.orderDirection) {
-                  element.data = _this7.sortList(element.data);
+                if (_this6.orderBy >= 0 && _this6.orderDirection) {
+                  element.data = _this6.sortList(element.data);
                 }
               }
             });
@@ -1217,7 +1212,7 @@ var DataManager = /*#__PURE__*/ (function () {
             var sortTree = function sortTree(list) {
               list.forEach(function (item) {
                 if (item.tableData.childRows) {
-                  item.tableData.childRows = _this7.sortList(
+                  item.tableData.childRows = _this6.sortList(
                     item.tableData.childRows
                   );
                   sortTree(item.tableData.childRows);
