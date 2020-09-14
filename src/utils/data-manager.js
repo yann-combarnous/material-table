@@ -45,7 +45,7 @@ export default class DataManager {
 
   constructor() {}
 
-  setData(data) {
+  setData = (data) => {
     this.selectedCount = 0;
 
     this.data = data.map((row, index) => {
@@ -57,7 +57,7 @@ export default class DataManager {
     });
 
     this.filtered = false;
-  }
+  };
 
   setColumns(columns) {
     const undefinedWidthColumns = columns.filter(
