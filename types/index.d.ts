@@ -56,6 +56,7 @@ export interface MaterialTableProps<RowData extends object> {
     rowData?: RowData,
     toggleDetailPanel?: (panelIndex?: number) => void
   ) => void;
+  onRowDrop?: ({ source: RowData, destination: RowData }) => void;
   onRowSelected?: (rowData: RowData) => void;
   onSearchChange?: (searchText: string) => void;
   /** An event fired when the table has finished filtering data
