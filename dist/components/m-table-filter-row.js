@@ -79,8 +79,6 @@ var _InputAdornment = _interopRequireDefault(
   require("@material-ui/core/InputAdornment")
 );
 
-var _Icon = _interopRequireDefault(require("@material-ui/core/Icon"));
-
 var _Tooltip = _interopRequireDefault(require("@material-ui/core/Tooltip"));
 
 var _dateFns = _interopRequireDefault(require("@date-io/date-fns"));
@@ -249,6 +247,9 @@ var MTableFilterRow = /*#__PURE__*/ (function (_React$Component) {
                 return selecteds
                   .map(function (selected) {
                     return columnDef.lookup[selected];
+                  })
+                  .sort(function (a, b) {
+                    return a.localeCompare(b);
                   })
                   .join(", ");
               },

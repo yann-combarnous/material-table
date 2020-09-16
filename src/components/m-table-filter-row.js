@@ -12,7 +12,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
 import Tooltip from "@material-ui/core/Tooltip";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -93,7 +92,10 @@ class MTableFilterRow extends React.Component {
             />
           }
           renderValue={(selecteds) =>
-            selecteds.map((selected) => columnDef.lookup[selected]).join(", ")
+            selecteds
+              .map((selected) => columnDef.lookup[selected])
+              .sort((a, b) => a.localeCompare(b))
+              .join(", ")
           }
           MenuProps={MenuProps}
           style={{ marginTop: 0 }}
