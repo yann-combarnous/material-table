@@ -44,6 +44,8 @@ class MTableFilterRow extends React.Component {
     "";
 
   LookupFilter = ({ columnDef }) => {
+    const localization = this.getLocalizationData();
+    const FilterIcon = this.props.icons.Filter;
     const [selectedFilter, setSelectedFilter] = React.useState(
       columnDef.tableData.filterValue || []
     );
@@ -79,7 +81,16 @@ class MTableFilterRow extends React.Component {
               );
           }}
           input={
-            <Input id={"select-multiple-checkbox" + columnDef.tableData.id} />
+            <Input
+              startAdornment={
+                <InputAdornment position="start">
+                  <Tooltip title={localization.filterTooltip}>
+                    <FilterIcon />
+                  </Tooltip>
+                </InputAdornment>
+              }
+              id={"select-multiple-checkbox" + columnDef.tableData.id}
+            />
           }
           renderValue={(selecteds) =>
             selecteds.map((selected) => columnDef.lookup[selected]).join(", ")

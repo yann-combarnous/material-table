@@ -226,6 +226,19 @@ var MTableFilterRow = /*#__PURE__*/ (function (_React$Component) {
                   );
               },
               input: /*#__PURE__*/ React.createElement(_Input["default"], {
+                startAdornment: /*#__PURE__*/ React.createElement(
+                  _InputAdornment["default"],
+                  {
+                    position: "start",
+                  },
+                  /*#__PURE__*/ React.createElement(
+                    _Tooltip["default"],
+                    {
+                      title: localization.filterTooltip,
+                    },
+                    /*#__PURE__*/ React.createElement(FilterIcon, null)
+                  )
+                ),
                 id: "select-multiple-checkbox" + columnDef.tableData.id,
               }),
               renderValue: function renderValue(selecteds) {
