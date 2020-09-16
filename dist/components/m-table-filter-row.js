@@ -172,6 +172,10 @@ var MTableFilterRow = /*#__PURE__*/ (function (_React$Component) {
       function (_ref) {
         var columnDef = _ref.columnDef;
 
+        var localization = _this.getLocalizationData();
+
+        var FilterIcon = _this.props.icons.Filter;
+
         var _React$useState = React.useState(
             columnDef.tableData.filterValue || []
           ),
