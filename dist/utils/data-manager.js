@@ -414,10 +414,11 @@ var DataManager = /*#__PURE__*/ (function () {
   (0, _createClass2["default"])(DataManager, [
     {
       key: "setColumns",
-      value: function setColumns(columns) {
+      value: function setColumns(columns, isInit) {
         var undefinedWidthColumns = columns.filter(function (c) {
           return (
-            c.width === undefined && (!c.hidden || c.hiddenByColumnsButton)
+            c.width === undefined &&
+            (!c.hidden || (isInit && c.hiddenByColumnsButton))
           );
         });
         var usedWidth = ["0px"];
