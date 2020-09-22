@@ -10,7 +10,7 @@ export const selectionMaxWidth = (props, maxTreeLevel) =>
   baseIconSize(props) + 9 * maxTreeLevel;
 
 export const reducePercentsInCalc = (calc, fullValue) => {
-  let index = calc.indexOf("%");
+  let index = calc ? calc.indexOf("%") : -1;
   let count = 0;
   while (index !== -1 && count++ < 30) {
     let leftIndex = index - 1;
