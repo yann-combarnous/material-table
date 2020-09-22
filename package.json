@@ -1,6 +1,6 @@
 {
   "name": "@yann32/material-datagrid",
-  "version": "1.69.5",
+  "version": "1.69.6",
   "description": "Datatable for React based on https://material-ui.com/api/table/ with additional features",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
