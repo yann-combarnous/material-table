@@ -577,7 +577,7 @@ export default class DataManager {
     return result;
   }
 
-  getRenderState = (resetColsWidth) => {
+  getRenderState = () => {
     if (this.filtered === false) {
       this.filterData();
     }
@@ -602,19 +602,17 @@ export default class DataManager {
       this.pageData();
     }
 
-    if (resetColsWidth) {
-      this.setColumns(
-        this.columns.map((col) => ({
-          ...col,
+    this.setColumns(
+      this.columns.map((col) => ({
+        ...col,
+        width: undefined,
+        tableData: {
+          ...col.tableData,
           width: undefined,
-          tableData: {
-            ...col.tableData,
-            width: undefined,
-            initialWidth: undefined,
-          },
-        }))
-      );
-    }
+          initialWidth: undefined,
+        },
+      }))
+    );
 
     return {
       columns: this.columns,
