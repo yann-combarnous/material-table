@@ -6,3 +6,4 @@ Differences from release 1.69.0:
 - [PR #2467](https://github.com/mbrn/material-table/pull/2467) Add missing adornment icon on lookup filter
 - [PR #1995](https://github.com/mbrn/material-table/pull/1995) Draggable rows / rows reordering / drag & drop rows
 - [PR #2423](https://github.com/mbrn/material-table/pull/2423) Fixes infinity loop
+- [PR #2441](https://github.com/mbrn/material-table/pull/2441) Fix an error that makes the width value string very long

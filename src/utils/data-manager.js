@@ -84,7 +84,10 @@ export default class DataManager {
         id: index,
       };
 
-      if (columnDef.tableData.width !== undefined) {
+      if (
+        !undefinedWidthColumns.includes(columnDef) &&
+        columnDef.tableData.width !== undefined
+      ) {
         usedWidth.push(columnDef.tableData.width);
       }
 
@@ -574,7 +577,7 @@ export default class DataManager {
     return result;
   }
 
-  getRenderState = () => {
+  getRenderState = (resetColsWidth) => {
     if (this.filtered === false) {
       this.filterData();
     }
@@ -599,17 +602,19 @@ export default class DataManager {
       this.pageData();
     }
 
-    this.setColumns(
-      this.columns.map((col) => ({
-        ...col,
-        width: undefined,
-        tableData: {
-          ...col.tableData,
+    if (resetColsWidth) {
+      this.setColumns(
+        this.columns.map((col) => ({
+          ...col,
           width: undefined,
-          initialWidth: undefined,
-        },
-      }))
-    );
+          tableData: {
+            ...col.tableData,
+            width: undefined,
+            initialWidth: undefined,
+          },
+        }))
+      );
+    }
 
     return {
       columns: this.columns,
