@@ -272,6 +272,7 @@ export default class DataManager {
   changeColumnHidden(column, hidden) {
     column.hidden = hidden;
     column.hiddenByColumnsButton = hidden;
+    this.setColumns(this.columns);
   }
 
   changeTreeExpand(path) {
@@ -601,18 +602,6 @@ export default class DataManager {
     if (this.paged === false) {
       this.pageData();
     }
-
-    this.setColumns(
-      this.columns.map((col) => ({
-        ...col,
-        width: undefined,
-        tableData: {
-          ...col.tableData,
-          width: undefined,
-          initialWidth: undefined,
-        },
-      }))
-    );
 
     return {
       columns: this.columns,
