@@ -56,7 +56,15 @@ export default class MaterialTable extends React.Component {
     this.tableContainerDiv = React.createRef();
   }
 
+  updateWidth = () => {
+    this.setState({
+      width: this.tableContainerDiv.current.scrollWidth,
+    });
+  };
+
   componentDidMount() {
+    window.addEventListener("resize", this.updateWidth);
+
     this.setState(
       {
         ...this.dataManager.getRenderState(),
@@ -68,6 +76,10 @@ export default class MaterialTable extends React.Component {
         }
       }
     );
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWidth);
   }
 
   setDataManagerFields(props, isInit) {
