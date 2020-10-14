@@ -61,7 +61,10 @@ export default class DataManager {
 
   setColumns(columns) {
     const undefinedWidthColumns = columns.filter(
-      (c) => c.width === undefined && !c.hidden
+      (c) =>
+        c.width === undefined &&
+        c.columnDef?.tableData?.width === undefined &&
+        !c.hidden
     );
     let usedWidth = ["0px"];
 
@@ -71,6 +74,7 @@ export default class DataManager {
         filterValue: columnDef.defaultFilter,
         groupOrder: columnDef.defaultGroupOrder,
         groupSort: columnDef.defaultGroupSort || "asc",
+        ...columnDef.tableData,
         width:
           typeof columnDef.width === "number"
             ? columnDef.width + "px"
@@ -80,14 +84,10 @@ export default class DataManager {
             ? columnDef.width + "px"
             : columnDef.width,
         additionalWidth: 0,
-        ...columnDef.tableData,
         id: index,
       };
 
-      if (
-        !undefinedWidthColumns.includes(columnDef) &&
-        columnDef.tableData.width !== undefined
-      ) {
+      if (columnDef.tableData.width !== undefined) {
         usedWidth.push(columnDef.tableData.width);
       }
 
@@ -271,8 +271,10 @@ export default class DataManager {
 
   changeColumnHidden(column, hidden) {
     column.hidden = hidden;
-    column.hiddenByColumnsButton = hidden;
-    this.setColumns(this.columns);
+    const nextColumns = this.columns.map((col) => {
+      return col.field === column.field ? { ...col, hidden } : col;
+    });
+    this.setColumns(nextColumns);
   }
 
   changeTreeExpand(path) {

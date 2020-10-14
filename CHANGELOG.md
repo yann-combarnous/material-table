@@ -7,3 +7,6 @@ Differences from release 1.69.0:
 - [PR #1995](https://github.com/mbrn/material-table/pull/1995) Draggable rows / rows reordering / drag & drop rows
 - [PR #2423](https://github.com/mbrn/material-table/pull/2423) Fixes infinity loop
 - [PR #2441](https://github.com/mbrn/material-table/pull/2441) Fix an error that makes the width value string very long
+- [PR #2510] Deep fix for freezing of table
+- [PR #2511] respect user styles over inherit width
+- [PR #2518] Fix/hidden column visibility

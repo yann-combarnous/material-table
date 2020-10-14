@@ -45,7 +45,19 @@ class App extends Component {
 
   colRenderCount = 0;
 
+  updateDimensions = () => {
+    this.setState({ width: window.innerWidth });
+  };
+
+  componentDidMount() {
+    window.addEventListener("resize", this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
+  }
+
   state = {
+    width: window.innerWidth,
     text: "text",
     selecteds: 0,
     data: [
@@ -437,6 +449,8 @@ class App extends Component {
         filterPlaceholder: "Adı filter",
         tooltip: "This is tooltip text",
         editPlaceholder: "This is placeholder",
+        hidden: true,
+        hiddenByColumnsButton: true,
         maxWidth: 50,
       },
       {
@@ -462,7 +476,7 @@ class App extends Component {
         lookup: { 34: "İstanbul", 0: "Şanlıurfa" },
       },
       { title: "Kayıt Tarihi", field: "insertDateTime", type: "datetime" },
-      { title: "Zaman", field: "time", type: "time" },
+      { title: "Zaman", field: "time", type: "time", width: 150 },
     ],
     remoteColumns: [
       {
@@ -529,11 +543,13 @@ class App extends Component {
                   //   },
                   // }}
                   options={{
+                    columnsButton: true,
                     tableLayout: "fixed",
                     columnResizable: true,
                     headerSelectionProps: {
                       color: "primary",
                     },
+                    cspNonce: "" + this.state.width,
                     selection: false,
                     selectionProps: (rowData) => {
                       rowData.tableData.disabled = rowData.name === "A1";
@@ -659,11 +675,11 @@ class App extends Component {
                   filterOnItemSelect: true,
                   filterPlaceholder: "placeholder",
                   lookup: {
-                    1: "1",
-                    2: "2",
-                    3: "3",
-                    4: "4",
-                    5: "5",
+                    1: "111111111111111111111",
+                    2: "222222222222222222222",
+                    3: "333333333333333333333",
+                    4: "444444444444444444444",
+                    5: "5555555555555555555555",
                     6: "6",
                     7: "7",
                     8: "8",
@@ -672,6 +688,7 @@ class App extends Component {
                     11: "11",
                     12: "12",
                   },
+                  //width: '100px'
                 },
                 { title: "First Name", field: "first_name" },
                 { title: "Last Name", field: "last_name" },
