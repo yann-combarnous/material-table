@@ -10,3 +10,4 @@ Differences from release 1.69.0:
 - [PR #2510] Deep fix for freezing of table
 - [PR #2511] respect user styles over inherit width
 - [PR #2518] Fix/hidden column visibility
+- [PR #2563] Prevent state update when table is unmounted (for remote data)

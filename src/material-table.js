@@ -606,6 +606,9 @@ export default class MaterialTable extends React.Component {
       this.props
         .data(query)
         .then((result) => {
+          // Before updating state, check table is still mounted
+          if (!this.tableContainerDiv.current) return;
+
           query.totalCount = result.totalCount;
           query.page = result.page;
           this.dataManager.setData(result.data);
@@ -622,6 +625,9 @@ export default class MaterialTable extends React.Component {
           );
         })
         .catch((error) => {
+          // Before updating state, check table is still mounted
+          if (!this.tableContainerDiv.current) return;
+
           const localization = {
             ...MaterialTable.defaultProps.localization,
             ...this.props.localization,
