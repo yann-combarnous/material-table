@@ -92,11 +92,12 @@ class MTableFilterRow extends React.Component {
             />
           }
           renderValue={(selecteds) => {
-            if (selecteds.length === 0) return null;
-
             const selections = selecteds
               .map((selected) => columnDef.lookup[selected])
+              .filter((s) => !!s)
               .sort((a, b) => a.localeCompare(b));
+
+            if (selections.length === 0) return null;
 
             return `${selections[0].substring(0, 15)}${
               selections[0].length > 15 ? "..." : ""
